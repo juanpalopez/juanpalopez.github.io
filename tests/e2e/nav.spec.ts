@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { SITE } from '../../src/config/site';
 
 test.describe('Navigation', () => {
   test('has correct links on home page', async ({ page }) => {
@@ -7,12 +8,12 @@ test.describe('Navigation', () => {
     await expect(nav).toBeVisible();
     await expect(nav.getByRole('link', { name: 'writing' })).toHaveAttribute('href', '/writing');
     await expect(nav.getByRole('link', { name: 'projects' })).toHaveAttribute('href', '/projects');
-    await expect(nav.getByRole('link', { name: 'contact' })).toHaveAttribute('href', 'mailto:juanpablolopez@outlook.com');
+    await expect(nav.getByRole('link', { name: 'contact' })).toHaveAttribute('href', `mailto:${SITE.email}`);
   });
 
   test('name link points to home', async ({ page }) => {
     await page.goto('/writing');
-    await expect(page.getByRole('link', { name: 'Juan Lopez — home' })).toHaveAttribute('href', '/');
+    await expect(page.getByRole('link', { name: `${SITE.name} — home` })).toHaveAttribute('href', '/');
   });
 
   test('writing link is active on /writing', async ({ page }) => {
