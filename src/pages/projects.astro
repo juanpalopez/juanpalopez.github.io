@@ -1,12 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { SITE } from '../config/site';
 
 const allProjects = (await getCollection('projects'))
   .sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title="Projects — Juan Lopez" description="Projects built by Juan Lopez — backend tools, APIs, and distributed systems.">
+<BaseLayout title={`Projects — ${SITE.name}`} description={`Projects built by ${SITE.name} — backend tools, APIs, and distributed systems.`}>
   <div class="container page">
     <h1 class="section-label">projects/</h1>
     <hr class="section-divider" />

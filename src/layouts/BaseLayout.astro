@@ -2,13 +2,14 @@
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import { SITE } from '../config/site';
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = 'Juan Lopez — Backend Developer. Building in public.' } = Astro.props;
+const { title, description = `${SITE.name} — ${SITE.role}. Building in public.` } = Astro.props;
 ---
 
 <!doctype html>

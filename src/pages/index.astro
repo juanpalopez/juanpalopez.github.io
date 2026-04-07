@@ -21,29 +21,29 @@ function formatDate(date: Date): string {
 }
 ---
 
-<BaseLayout title="Juan Lopez — Backend Developer">
+<BaseLayout title={`${SITE.name} — ${SITE.role}`}>
   <!-- Hero Section -->
   <section class="hero" aria-label="Introduction">
     <div class="container hero-content">
       <div class="hero-name-row">
         <div class="avatar" aria-hidden="true">JL</div>
-        <h1 class="hero-name">Juan Lopez</h1>
+        <h1 class="hero-name">{SITE.name}</h1>
       </div>
       <p class="hero-role">
-        <span id="typewriter" aria-live="polite">Software Engineer</span><span class="cursor" aria-hidden="true">_</span>
+        <span id="typewriter" aria-live="polite">{SITE.role}</span><span class="cursor" aria-hidden="true">_</span>
       </p>
       <p class="hero-tagline">I build APIs and distributed systems.<br />Learning in public. Based in UK.</p>
       <div class="hero-links">
         <a href={SITE.github} target="_blank" rel="noopener noreferrer">
-          <span class="sr-only">Juan Lopez on </span>GitHub
+          <span class="sr-only">{SITE.name} on </span>GitHub
         </a>
         <span class="hero-sep" aria-hidden="true">&middot;</span>
         <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer">
-          <span class="sr-only">Juan Lopez on </span>LinkedIn
+          <span class="sr-only">{SITE.name} on </span>LinkedIn
         </a>
         <span class="hero-sep" aria-hidden="true">&middot;</span>
         <a href={`mailto:${SITE.email}`}>
-          <span class="sr-only">Send </span>Email<span class="sr-only"> to Juan Lopez</span>
+          <span class="sr-only">Send </span>Email<span class="sr-only"> to {SITE.name}</span>
         </a>
       </div>
       <div class="scroll-hint" aria-hidden="true">↓</div>
@@ -178,9 +178,9 @@ function formatDate(date: Date): string {
       )}
     </div>
   </section>
-<script>
+<script define:vars={{ role: SITE.role }}>
   const terms = [
-    'Software Engineer',
+    role,
     'Distributed Systems',
     'Go · Python · Rust',
     'Kubernetes · Terraform',

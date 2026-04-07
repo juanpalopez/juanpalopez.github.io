@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
+import { SITE } from '../../config/site';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing');
@@ -28,7 +29,7 @@ const wordCount = post.body ? post.body.split(/\s+/).length : 0;
 const readingTime = Math.max(1, Math.round(wordCount / 200));
 ---
 
-<BaseLayout title={`${post.data.title} — Juan Lopez`} description={post.data.title}>
+<BaseLayout title={`${post.data.title} — ${SITE.name}`} description={post.data.title}>
   <article class="container page">
     <!-- Breadcrumb -->
     <p class="breadcrumb">
@@ -40,7 +41,7 @@ const readingTime = Math.max(1, Math.round(wordCount / 200));
     <header class="post-header">
       <h1 class="post-title">{post.data.title}</h1>
       <p class="post-meta">
-        Juan Lopez &middot; {formatDate(post.data.date)} &middot; {readingTime} min read
+        {SITE.name} &middot; {formatDate(post.data.date)} &middot; {readingTime} min read
       </p>
     </header>
 
@@ -58,7 +59,7 @@ const readingTime = Math.max(1, Math.round(wordCount / 200));
       <div class="author-info">
         <div class="author-avatar" aria-hidden="true">JL</div>
         <div>
-          <p class="author-name">Juan Lopez</p>
+          <p class="author-name">{SITE.name}</p>
           <p class="author-bio">Backend developer. Building in public.</p>
         </div>
       </div>
