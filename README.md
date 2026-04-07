@@ -1,43 +1,82 @@
-# Astro Starter Kit: Minimal
+# juanpalopez.github.io
 
-```sh
-pnpm create astro@latest -- --template minimal
+Personal website and devlog for Juan Lopez — backend developer based in London, UK.
+
+Built with Astro and deployed to GitHub Pages.
+
+## Context
+
+This site serves two purposes:
+
+1. **Portfolio** — a place to list projects and establish a digital presence for recruiters, developers, and curious strangers.
+2. **Devlog** — short building-in-public posts documenting what I'm working on, decisions I'm making, and things I'm learning.
+
+Stack: Astro 6 (vanilla, no UI framework), plain CSS custom properties, pnpm, Playwright for E2E testing, GitHub Actions for CI.
+
+## Project structure
+
+```
+src/
+  components/       # Nav.astro, Footer.astro
+  config/
+    site.ts         # contact info constants (email, github, linkedin)
+  content/
+    writing/        # devlog posts (.md)
+    projects/       # project entries (.md)
+    now/            # current.md — what I'm building right now
+  layouts/
+    BaseLayout.astro
+  pages/
+    index.astro
+    projects.astro
+    writing/
+      index.astro
+      [slug].astro
+  styles/
+    global.css      # CSS tokens, reset, base styles
+.claude/
+  commands/         # custom Claude Code slash commands
+  plans/            # UX and design planning docs (gitignored)
+tests/
+  e2e/              # Playwright tests
+.github/
+  workflows/
+    ci.yml          # build + test on push/PR to main
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Development
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+pnpm install       # install dependencies
+pnpm dev           # start dev server at localhost:4321
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Build
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```bash
+pnpm build         # production build to ./dist/
+pnpm preview       # preview the built output locally
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Testing
 
-## 🧞 Commands
+Tests are end-to-end using Playwright (Chromium only). Run against the built output, not the dev server.
 
-All commands are run from the root of the project, from a terminal:
+```bash
+pnpm build         # build first
+pnpm test          # run E2E tests
+pnpm test:ui       # open Playwright UI mode
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+CI runs automatically on push and pull requests to `main` via `.github/workflows/ci.yml`.
 
-## 👀 Want to learn more?
+## AI assisted
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+This project was built with the assistance of [Claude Code](https://claude.com/claude-code). The AI helped with:
+
+- Initial site scaffolding and component structure
+- UX and design decisions (see `.claude/plans/UX_DESIGN.md`)
+- Writing test cases and debugging failures
+- CI workflow setup
+
+All content, decisions, and final code have been reviewed and approved by me. The `.claude/` folder contains project context, planning documents, and custom slash commands used during development.
