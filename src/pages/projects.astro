@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allProjects = (await getCollection('projects'))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Projects — Juan Lopez" description="Projects built by Juan Lopez — backend tools, APIs, and distributed systems.">
+  <div class="container page">
+    <h1 class="section-label">projects/</h1>
+    <hr class="section-divider" />
+
+    {allProjects.length > 0 ? (
+      <div class="project-list">
+        {allProjects.map((project) => (
+          <div class="card project-card">
+            <div class="project-header">
+              <h2 class="project-name">{project.data.name}</h2>
+              <span class="project-stack">{project.data.stack.join(' · ')}</span>
+            </div>
+            <p class="project-description">
+              {project.data.longDescription || project.data.description}
+            </p>
+            <div class="project-links">
+              {project.data.githubUrl && (
+                <a
+                  href={project.data.githubUrl}
+                  class="project-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  &rarr; <span class="sr-only">View {project.data.name} on </span>github
+                </a>
+              )}
+              {project.data.liveUrl && (
+                <a
+                  href={project.data.liveUrl}
+                  class="project-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  &rarr; <span class="sr-only">View </span>live demo<span class="sr-only"> of {project.data.name}</span>
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p class="empty-state">nothing shipped yet — check back soon</p>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding: 64px 24px var(--section-gap);
+  }
+
+  .project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .project-card {
+    padding: 24px;
+  }
+
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .project-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .project-stack {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .project-description {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .project-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    transition: color var(--transition-fast);
+  }
+
+  .project-link:hover {
+    color: var(--accent-hover);
+  }
+
+  .empty-state {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+</style>

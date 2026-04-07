@@ -1,0 +1,546 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { SITE } from '../config/site';
+
+// Fetch content collections
+const allWriting = (await getCollection('writing'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const featuredProjects = (await getCollection('projects'))
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const nowEntries = await getCollection('now');
+const currentProject = nowEntries[0];
+
+function formatDate(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
+---
+
+<BaseLayout title="Juan Lopez — Backend Developer">
+  <!-- Hero Section -->
+  <section class="hero" aria-label="Introduction">
+    <div class="container hero-content">
+      <div class="hero-name-row">
+        <div class="avatar" aria-hidden="true">JL</div>
+        <h1 class="hero-name">Juan Lopez</h1>
+      </div>
+      <p class="hero-role">
+        <span id="typewriter" aria-live="polite">Software Engineer</span><span class="cursor" aria-hidden="true">_</span>
+      </p>
+      <p class="hero-tagline">I build APIs and distributed systems.<br />Learning in public. Based in UK.</p>
+      <div class="hero-links">
+        <a href={SITE.github} target="_blank" rel="noopener noreferrer">
+          <span class="sr-only">Juan Lopez on </span>GitHub
+        </a>
+        <span class="hero-sep" aria-hidden="true">&middot;</span>
+        <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer">
+          <span class="sr-only">Juan Lopez on </span>LinkedIn
+        </a>
+        <span class="hero-sep" aria-hidden="true">&middot;</span>
+        <a href={`mailto:${SITE.email}`}>
+          <span class="sr-only">Send </span>Email<span class="sr-only"> to Juan Lopez</span>
+        </a>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">↓</div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section fade-in" aria-labelledby="about-heading">
+    <div class="container">
+      <h2 id="about-heading" class="section-label">about/</h2>
+      <hr class="section-divider" />
+      <p class="about-text">
+        Backend developer focused on building reliable systems. I care about clean
+        APIs, observability, and keeping infrastructure simple. Currently building
+        open-source developer tools in Go. When I am not at the terminal I am
+        probably reading about distributed systems or exploring a new city.
+      </p>
+      <div class="about-links">
+        <a href="/projects" class="about-link">&rarr; /projects</a>
+        <a href="/writing" class="about-link">&rarr; /writing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Currently Building Section -->
+  <section class="section fade-in" aria-labelledby="now-heading">
+    <div class="container">
+      <h2 id="now-heading" class="section-label">now/</h2>
+      <hr class="section-divider" />
+      {currentProject ? (
+        <div class="card now-card">
+          <div class="now-card-header">
+            <h3 class="now-project-name">{currentProject.data.project}</h3>
+            <span class="now-status">{currentProject.data.status}</span>
+          </div>
+          <hr class="now-card-divider" />
+          <p class="now-description">{currentProject.data.description}</p>
+          <p class="now-stack">
+            {currentProject.data.stack.join(' · ')}
+          </p>
+          <div class="now-links">
+            {currentProject.data.devlogTag && (
+              <a href="/writing" class="now-link">
+                &rarr; <span class="sr-only">Read </span>devlog
+              </a>
+            )}
+            {currentProject.data.githubUrl && (
+              <a
+                href={currentProject.data.githubUrl}
+                class="now-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &rarr; <span class="sr-only">View {currentProject.data.project} on </span>github
+              </a>
+            )}
+          </div>
+        </div>
+      ) : (
+        <p class="empty-state">nothing committed yet — watch this space</p>
+      )}
+    </div>
+  </section>
+
+  <!-- Selected Projects Section -->
+  <section class="section fade-in" aria-labelledby="projects-heading">
+    <div class="container">
+      <div class="section-header">
+        <h2 id="projects-heading" class="section-label">projects/</h2>
+        <a href="/projects" class="section-link">&rarr; all</a>
+      </div>
+      <hr class="section-divider" />
+      {featuredProjects.length > 0 ? (
+        <div class="project-list">
+          {featuredProjects.map((project) => (
+            <div class="card project-card">
+              <h3 class="project-name">{project.data.name}</h3>
+              <p class="project-description">{project.data.description}</p>
+              <div class="project-footer">
+                <span class="project-stack">{project.data.stack.join(' · ')}</span>
+                {project.data.githubUrl && (
+                  <a
+                    href={project.data.githubUrl}
+                    class="project-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    &rarr; <span class="sr-only">View {project.data.name} on </span>github
+                  </a>
+                )}
+                {!project.data.githubUrl && project.data.liveUrl && (
+                  <a
+                    href={project.data.liveUrl}
+                    class="project-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    &rarr; <span class="sr-only">View {project.data.name} </span>live
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="empty-state">nothing shipped yet — <a href="/writing">/writing</a> to follow the process</p>
+      )}
+    </div>
+  </section>
+
+  <!-- Writing Section -->
+  <section class="section fade-in" aria-labelledby="writing-heading">
+    <div class="container">
+      <div class="section-header">
+        <h2 id="writing-heading" class="section-label">writing/</h2>
+        <a href="/writing" class="section-link">&rarr; all posts</a>
+      </div>
+      <hr class="section-divider" />
+      {allWriting.length > 0 ? (
+        <div class="writing-list">
+          {allWriting.map((post) => (
+            <a href={`/writing/${post.id}`} class="writing-entry">
+              <time class="writing-date" datetime={formatDate(post.data.date)}>
+                {formatDate(post.data.date)}
+              </time>
+              <span class="writing-title">{post.data.title}</span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="empty-state">no posts yet — first one coming soon</p>
+      )}
+    </div>
+  </section>
+<script>
+  const terms = [
+    'Software Engineer',
+    'Distributed Systems',
+    'Go · Python · Rust',
+    'Kubernetes · Terraform',
+    'Observability',
+    'Infrastructure',
+  ];
+
+  const el = document.getElementById('typewriter');
+  if (el && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let termIndex = 0;
+    let charIndex = terms[0].length; // start from end of first term
+    let deleting = true; // start by deleting the SSR'd text
+
+    function tick() {
+      const current = terms[termIndex];
+      if (deleting) {
+        charIndex--;
+        el.textContent = current.slice(0, charIndex);
+        if (charIndex === 0) {
+          deleting = false;
+          termIndex = (termIndex + 1) % terms.length;
+          setTimeout(tick, 400);
+          return;
+        }
+        setTimeout(tick, 35);
+      } else {
+        el.textContent = current.slice(0, charIndex);
+        charIndex++;
+        if (charIndex > current.length) {
+          deleting = true;
+          setTimeout(tick, 2000);
+          return;
+        }
+        setTimeout(tick, 80);
+      }
+    }
+
+    setTimeout(tick, 2000); // pause on first term before starting
+  }
+</script>
+</BaseLayout>
+
+<style>
+  /* --- Hero --- */
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 0;
+    /* slight upward offset: position at ~45% from top */
+    margin-top: -10vh;
+  }
+
+  .hero-name-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .hero-name {
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text-primary);
+  }
+
+  .hero-role {
+    font-size: 20px;
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  .cursor {
+    display: inline-block;
+    color: var(--accent);
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor { animation: none; opacity: 1; }
+  }
+
+  .hero-tagline {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 400px;
+  }
+
+  .hero-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+
+  .hero-links a {
+    color: var(--accent);
+    transition: color var(--transition-fast);
+  }
+
+  .hero-links a:hover {
+    color: var(--accent-hover);
+  }
+
+  .hero-sep {
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-muted);
+    font-size: 20px;
+    animation: fade-scroll-hint 2s ease-in-out infinite;
+  }
+
+  @keyframes fade-scroll-hint {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-hint {
+      animation: none;
+      opacity: 0.5;
+    }
+  }
+
+  /* --- Sections --- */
+  .section {
+    padding: var(--section-gap) 0;
+  }
+
+  /* --- About --- */
+  .about-text {
+    font-size: 16px;
+    color: var(--text-primary);
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  .about-links {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .about-link {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--accent);
+    transition: color var(--transition-fast);
+  }
+
+  .about-link:hover {
+    color: var(--accent-hover);
+  }
+
+  /* --- Currently Building --- */
+  .now-card {
+    padding: 24px;
+  }
+
+  .now-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .now-project-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .now-status {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .now-card-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 16px 0;
+  }
+
+  .now-description {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .now-stack {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  .now-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .now-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    transition: color var(--transition-fast);
+  }
+
+  .now-link:hover {
+    color: var(--accent-hover);
+  }
+
+  /* --- Projects --- */
+  .project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .project-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .project-description {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .project-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .project-stack {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .project-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    transition: color var(--transition-fast);
+  }
+
+  .project-link:hover {
+    color: var(--accent-hover);
+  }
+
+  /* --- Writing --- */
+  .writing-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .writing-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-decoration: none;
+  }
+
+  .writing-date {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .writing-title {
+    font-size: 16px;
+    color: var(--text-primary);
+    transition: color var(--transition-fast);
+  }
+
+  .writing-entry:hover .writing-title {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* --- Empty state --- */
+  .empty-state {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .empty-state a {
+    color: var(--accent);
+  }
+
+  /* --- Mobile --- */
+  @media (max-width: 640px) {
+    .hero-name {
+      font-size: 36px;
+    }
+
+    .hero-role {
+      font-size: 18px;
+    }
+
+    .project-footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .section {
+      padding: 64px 0;
+    }
+  }
+</style>

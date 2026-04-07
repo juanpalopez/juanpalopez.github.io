@@ -1,0 +1,106 @@
+---
+import { SITE } from '../config/site';
+
+const currentPath = Astro.url.pathname;
+
+const links = [
+  { href: '/writing', label: 'writing' },
+  { href: '/projects', label: 'projects' },
+  { href: `mailto:${SITE.email}`, label: 'contact', isAccent: true },
+];
+---
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner container">
+    <a href="/" class="nav-name" aria-label="Juan Lopez — home">
+      juan lopez
+    </a>
+    <ul class="nav-links" role="list">
+      {links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class:list={[
+              'nav-link',
+              { active: currentPath.startsWith(link.href) && link.href !== '/' },
+              { accent: link.isAccent },
+            ]}
+            {...(link.href.startsWith('mailto:') ? {} : {})}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--nav-height);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-name {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: color var(--transition-fast);
+  }
+
+  .nav-name:hover {
+    color: var(--text-primary);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+
+  .nav-link {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: color var(--transition-fast);
+  }
+
+  .nav-link:hover {
+    color: var(--text-primary);
+  }
+
+  .nav-link.active {
+    color: var(--text-primary);
+  }
+
+  .nav-link.accent {
+    color: var(--accent);
+  }
+
+  .nav-link.accent:hover {
+    color: var(--accent-hover);
+  }
+
+  @media (max-width: 480px) {
+    .nav-links {
+      gap: 16px;
+    }
+
+    .nav-link,
+    .nav-name {
+      font-size: 13px;
+    }
+  }
+</style>

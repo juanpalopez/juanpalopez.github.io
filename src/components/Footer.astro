@@ -1,0 +1,91 @@
+---
+import { SITE } from '../config/site';
+
+const socialLinks = [
+  { href: SITE.github, label: 'GitHub' },
+  { href: SITE.linkedin, label: 'LinkedIn' },
+  { href: `mailto:${SITE.email}`, label: 'Email' },
+];
+---
+
+<footer class="footer">
+  <div class="container">
+    <hr class="footer-divider" />
+    <div class="footer-content">
+      <div class="footer-left">
+        <span class="footer-name">juan lopez</span>
+      </div>
+      <nav class="footer-links" aria-label="Social links">
+        {socialLinks.map((link, i) => (
+          <Fragment>
+            {i > 0 && <span class="footer-separator" aria-hidden="true">&middot;</span>}
+            <a
+              href={link.href}
+              class="footer-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {link.label}
+            </a>
+          </Fragment>
+        ))}
+      </nav>
+    </div>
+    <p class="footer-credit">built with Astro &middot; 2026</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 60px 0 40px;
+  }
+
+  .footer-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-name {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .footer-separator {
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+
+  .footer-link {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: color var(--transition-fast);
+  }
+
+  .footer-link:hover {
+    color: var(--accent);
+  }
+
+  .footer-credit {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 12px;
+  }
+</style>
