@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { SITE } from '../../config/site';
 
 const allPosts = (await getCollection('writing'))
   .filter((post) => !post.data.draft)
@@ -24,7 +25,7 @@ function formatDate(date: Date): string {
 }
 ---
 
-<BaseLayout title="Writing — Juan Lopez" description="Devlogs and technical writing by Juan Lopez.">
+<BaseLayout title={`Writing — ${SITE.name}`} description={`Devlogs and technical writing by ${SITE.name}.`}>
   <div class="container page">
     <h1 class="section-label">writing/</h1>
     <hr class="section-divider" />

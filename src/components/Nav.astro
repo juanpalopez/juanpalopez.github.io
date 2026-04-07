@@ -12,8 +12,8 @@ const links = [
 
 <nav class="nav" aria-label="Primary">
   <div class="nav-inner container">
-    <a href="/" class="nav-name" aria-label="Juan Lopez — home">
-      juan lopez
+    <a href="/" class="nav-name" aria-label=`${SITE.name} — home`>
+      {SITE.name}
     </a>
     <ul class="nav-links" role="list">
       {links.map((link) => (
