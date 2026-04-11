@@ -1,6 +1,6 @@
 # Juan Pablo Lopez
 
-> Backend developer focused on building reliable systems. I care about clean APIs, observability, and keeping infrastructure simple. Currently building open-source developer tools in Go. Based in UK.
+> Software engineer focused on building reliable systems. I care about clean APIs, observability, and keeping infrastructure simple. Currently building open-source developer tools in Rust. Based in UK.
 
 ## Pages
 
