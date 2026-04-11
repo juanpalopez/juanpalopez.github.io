@@ -1,0 +1,28 @@
+# Juan Pablo Lopez
+
+> Software engineer focused on building reliable systems. I care about clean APIs, observability, and keeping infrastructure simple. Currently building open-source developer tools in Rust. Based in UK.
+
+## Pages
+
+- [Home](https://juanpalopez.github.io/): Hero, about, featured projects, and latest writing posts.
+- [Projects](https://juanpalopez.github.io/projects/): All projects with descriptions, tech stack, and links.
+- [Writing](https://juanpalopez.github.io/writing/): Devlog posts on backend engineering, tooling, and systems.
+
+## Writing
+
+- [Setting up a Go project from scratch, the way I like it](https://juanpalopez.github.io/writing/setting-up-a-go-project-from-scratch-the-way-i-like-it/): Directory structure, Makefile, linter configuration, and Docker setup for Go projects. Tags: go, tooling, taskqueue.
+
+## Projects
+
+- [job-scheduler-cpp](https://github.com/juanpalopez/job-scheduler-cpp): Type-safe job scheduler in C++ that queues and runs jobs at specified delays. Uses modern C++ idioms — templates, std::chrono, and concurrency primitives. Status: shipped.
+- [coingecko-cli](https://github.com/juanpalopez/coingecko-cli): CLI tool in Rust that wraps the CoinGecko free-tier API. Supports ping, simple, and asset-platforms commands with rate limiting (10–30 calls/min). Status: in progress.
+
+## Currently building
+
+- rust-backtesting-engine — a backtesting engine written in Rust. Status: in progress.
+
+## Contact
+
+- Email: juanpablolopez@outlook.com
+- GitHub: https://github.com/juanpalopez
+- LinkedIn: https://linkedin.com/in/juanlopezguzman
