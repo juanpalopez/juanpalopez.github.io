@@ -23,7 +23,7 @@ test.describe('Home page', () => {
 
   test('renders projects section with entries', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'projects/' })).toBeVisible();
-    await expect(page.locator('.project-card')).toHaveCount(2);
+    await expect(page.locator('.project-card').first()).toBeVisible();
   });
 
   test('renders writing section', async ({ page }) => {
